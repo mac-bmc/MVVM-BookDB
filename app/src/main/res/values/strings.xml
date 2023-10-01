@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RoomDB- MVVM</string>
+    <string name="yes">Delete All</string>
+    <string name="no">No</string>
+</resources>
