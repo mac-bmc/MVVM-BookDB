@@ -1,4 +1,4 @@
-package com.example.roomdb_mvvm
+package com.example.roomdb_mvvm.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

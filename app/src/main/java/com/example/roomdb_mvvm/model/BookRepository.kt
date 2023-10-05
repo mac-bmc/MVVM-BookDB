@@ -1,4 +1,4 @@
-package com.example.roomdb_mvvm
+package com.example.roomdb_mvvm.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -18,9 +18,9 @@ class BookRepository(private val bookDao: BookDao) {
         val pageNo=book.nofPages
         val id = book.bookId
         Log.d("updated id","$id")
-        Log.d("updated title","$title")
-        Log.d("updated pageno","$pageNo")
-        Log.d("updated author","$authorName")
+        Log.d("updated title", title)
+        Log.d("updated pageno", pageNo)
+        Log.d("updated author", authorName)
         bookDao.updatebyId(title, authorName,pageNo,id)
     }
 
