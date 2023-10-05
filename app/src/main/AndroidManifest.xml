@@ -13,6 +13,27 @@
         android:theme="@style/Theme.RoomDBMVVM"
         tools:targetApi="31">
         <activity
+            android:name=".UpdateToBookActivity"
+            android:exported="false"
+            android:label="@string/title_activity_update_to_book"
+            android:theme="@style/Theme.RoomDBMVVM" />
+        <activity
+            android:name=".AddToRoomActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add_to_room"
+            android:theme="@style/Theme.RoomDBMVVM" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.RoomDBMVVM">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".UpdateBookActivity"
             android:exported="false" />
         <activity
