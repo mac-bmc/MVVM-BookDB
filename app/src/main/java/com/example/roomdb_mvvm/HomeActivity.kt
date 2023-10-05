@@ -22,8 +22,11 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,10 +38,13 @@ import androidx.compose.runtime.*
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -59,6 +65,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.livedata.observeAsState
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,6 +77,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 
 import androidx.compose.ui.tooling.preview.PreviewParameter as PreviewParameter
 
@@ -77,18 +85,24 @@ class HomeActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     lateinit var bookViewModel: BookViewModel
+    @SuppressLint("UnrememberedMutableState")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             RoomDBMVVMTheme {
+                val lazyListState = rememberLazyListState()
                 var isClicked by remember {
                     mutableStateOf(false)
                 }
-                var bookList = listOf<Book>()
+                bookViewModel = ViewModelProvider(
+                    this,
+                    ViewModelProvider.AndroidViewModelFactory(application)
+                ).get(BookViewModel::class.java)
+                val bookList:List<Book> by bookViewModel.readAllData.observeAsState(initial = mutableStateListOf())
                 Scaffold(
                     topBar = {
-                        TopAppBar(title = { Text(text = "RooM") },
+                        TopAppBar(title = { Text(text = "RooM")},
                             actions = {
                                 IconButton(onClick = {
                                     isClicked = true
@@ -101,7 +115,8 @@ class HomeActivity : ComponentActivity() {
                                 if (isClicked) {
                                     CustomDialog()
                                 }
-                            })
+                            },
+                        )
                     },
                     floatingActionButton =
                     {
@@ -114,19 +129,59 @@ class HomeActivity : ComponentActivity() {
                             })
                     },
                     content = { it
-                        Surface(
-                            modifier = Modifier.fillMaxSize(),
-                            color = MaterialTheme.colorScheme.background
-                        ) {
-                            LazyColumn {
-                                items(bookList) {
+                        Column(Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            LazyColumn(
+                                state = lazyListState,
+
+                                ) {
+                                item {
+                                    Box(modifier = Modifier.height(80.dp))
+                                }
+                                items(bookList) { book ->
+                                    Column() {
+                                        //Spacer(modifier=Modifier.height(200.dp))
+                                        CustomCard(book = book)
+                                        Spacer(Modifier.height(20.dp))
+                                    }
+
                                 }
                             }
                         }
+
                     }
                 )
 
 
+            }
+        }
+    }
+
+    @Composable
+    fun CustomCard(book: Book)
+    {
+        Box(
+            modifier = Modifier
+                .clickable {
+                    Log.d("card", "clicked ${book.bookTitle}")
+                    val intent = Intent(this, UpdateToBookActivity::class.java)
+                    intent.putExtra("title", book.bookTitle)
+                    intent.putExtra("author", book.authorName)
+                    intent.putExtra("pgno", book.nofPages)
+                    intent.putExtra("id", book.bookId)
+                    startActivity(intent)
+
+                }
+                .size(300.dp, 150.dp)
+                .border(2.dp, Color.Black, shape = RoundedCornerShape(28.dp)),
+            contentAlignment = Alignment.Center
+
+        ) {
+            Column {
+                Text(text = "${book.bookTitle}")
+                Text(text = "${book.authorName}")
+                Text(text = "${book.nofPages}")
             }
         }
     }
@@ -166,7 +221,7 @@ class HomeActivity : ComponentActivity() {
     }
 
     private fun intentToAdd() {
-        val intent = Intent(this, AddBookActivity::class.java)
+        val intent = Intent(this, AddToRoomActivity::class.java)
         startActivity(intent)
     }
 }

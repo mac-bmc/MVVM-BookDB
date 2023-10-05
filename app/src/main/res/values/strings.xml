@@ -3,4 +3,6 @@
     <string name="yes">Delete All</string>
     <string name="no">No</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_add_to_room">AddToRoomActivity</string>
+    <string name="title_activity_update_to_book">UpdateToBookActivity</string>
 </resources>
