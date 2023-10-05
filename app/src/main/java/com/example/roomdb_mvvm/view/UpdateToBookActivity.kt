@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
-package com.example.roomdb_mvvm
+package com.example.roomdb_mvvm.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,16 +19,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import com.example.roomdb_mvvm.viewmodel.BookViewModel
+import com.example.roomdb_mvvm.model.Book
 import com.example.roomdb_mvvm.ui.theme.RoomDBMVVMTheme
 
 class UpdateToBookActivity : ComponentActivity() {
@@ -117,7 +117,7 @@ class UpdateToBookActivity : ComponentActivity() {
                 ViewModelProvider.AndroidViewModelFactory(application)
             ).get(BookViewModel::class.java)
             bookViewModel.deleteBook(book)
-            startActivity(Intent(this,HomeActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
         }
         catch (e:Exception)
         {
@@ -126,7 +126,7 @@ class UpdateToBookActivity : ComponentActivity() {
         }
     }
     private fun updateToDb(title: String, author: String, pgno: String, id: Int) {
-        Log.d("title","$title")
+        Log.d("title", title)
         val book = Book(id,title,author,pgno)
         try {
             bookViewModel = ViewModelProvider(
@@ -134,7 +134,7 @@ class UpdateToBookActivity : ComponentActivity() {
                 ViewModelProvider.AndroidViewModelFactory(application)
             ).get(BookViewModel::class.java)
             bookViewModel.updateBook(book)
-            startActivity(Intent(this,HomeActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
         }
         catch (e:Exception)
         {

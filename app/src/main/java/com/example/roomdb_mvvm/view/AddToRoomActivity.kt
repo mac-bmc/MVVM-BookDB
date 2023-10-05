@@ -1,6 +1,8 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class,
+    ExperimentalMaterial3Api::class
+)
 
-package com.example.roomdb_mvvm
+package com.example.roomdb_mvvm.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +11,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -28,11 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import com.example.roomdb_mvvm.viewmodel.BookViewModel
+import com.example.roomdb_mvvm.model.Book
 import com.example.roomdb_mvvm.ui.theme.RoomDBMVVMTheme
 
 class AddToRoomActivity : ComponentActivity() {
-    lateinit var bookViewModel: BookViewModel
+    private lateinit var bookViewModel: BookViewModel
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -97,18 +101,18 @@ class AddToRoomActivity : ComponentActivity() {
         }
     }
 
-    private fun addToDb(title: String, author: String, pgno: String) {
-        bookViewModel = ViewModelProvider(
+    private fun addToDb(title: String, author: String, pgNo: String) {
+        this.bookViewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory(application)
         ).get(BookViewModel::class.java)
-        val book = Book(0, title, author, pgno)
+        val book = Book(0, title, author, pgNo)
         try {
             bookViewModel.addBook(book)
-            val intent = Intent(this,HomeActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
         } catch (e: Exception) {
-            Log.d("addtodatabase", "$e")
+            Log.d("databased", "$e")
         }
 
     }

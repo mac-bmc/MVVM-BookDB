@@ -1,4 +1,6 @@
-package com.example.roomdb_mvvm
+@file:Suppress("UNUSED_EXPRESSION")
+
+package com.example.roomdb_mvvm.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -6,64 +8,46 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.roomdb_mvvm.ui.theme.RoomDBMVVMTheme
-import android.content.Context
+
 import android.content.Intent
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.compose.setContent
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
+
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
+
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
+
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ElevatedCard
+
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
+
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 
-import androidx.compose.material3.OutlinedTextField
+
+
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.livedata.observeAsState
 
@@ -73,17 +57,18 @@ import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
+import com.example.roomdb_mvvm.viewmodel.BookViewModel
+import com.example.roomdb_mvvm.R
+import com.example.roomdb_mvvm.model.Book
 
-import androidx.compose.ui.tooling.preview.PreviewParameter as PreviewParameter
 
 class HomeActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-    @OptIn(ExperimentalMaterial3Api::class)
+
     lateinit var bookViewModel: BookViewModel
     @SuppressLint("UnrememberedMutableState")
     @OptIn(ExperimentalMaterial3Api::class)
@@ -140,7 +125,7 @@ class HomeActivity : ComponentActivity() {
                                     Box(modifier = Modifier.height(80.dp))
                                 }
                                 items(bookList) { book ->
-                                    Column() {
+                                    Column {
                                         //Spacer(modifier=Modifier.height(200.dp))
                                         CustomCard(book = book)
                                         Spacer(Modifier.height(20.dp))
@@ -179,9 +164,9 @@ class HomeActivity : ComponentActivity() {
 
         ) {
             Column {
-                Text(text = "${book.bookTitle}")
-                Text(text = "${book.authorName}")
-                Text(text = "${book.nofPages}")
+                Text(text = book.bookTitle, fontSize = 25.sp)
+                Text(text = book.authorName, fontSize = 20.sp)
+                Text(text = book.nofPages, fontSize = 20.sp)
             }
         }
     }
